@@ -6,13 +6,20 @@ import * as ScreenOrientation from "expo-screen-orientation";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Spinner } from "native-base";
-import store from "./src/store";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import Icon from "react-native-vector-icons/FontAwesome";
 
+import store from "./src/store";
 import Login from "./src/Containers/Authentication/Login";
 import Register from "./src/Containers/Authentication/Register";
 import restoreUser from "./src/actions/restoreUser";
 import IntroScreen from "./src/Containers/Intro/Intro";
+import ProfileScreen from "./src/Screens/ProfileScreen/ProfileScreen";
+import MeetingScreen from "./src/Screens/MeetingScreen/MeetingScreen";
+import GroupScreen from "./src/Screens/GroupScreen/GroupsScreen";
+import PalScreen from "./src/Screens/PalScreen/PalScreen";
 
+const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
 
 class App extends React.Component {
@@ -31,9 +38,9 @@ class App extends React.Component {
     //   return <Spinner />;
     // }
     return (
-      <View style={styles.container}>
-        {!this.props.user.api_token ? (
-          <NavigationContainer>
+      <NavigationContainer>
+        <View style={styles.container}>
+          {!this.props.user.api_token ? (
             <Stack.Navigator>
               <Stack.Screen
                 name="Intro"
@@ -43,11 +50,48 @@ class App extends React.Component {
               <Stack.Screen name="Login" component={Login} />
               <Stack.Screen name="Register" component={Register} />
             </Stack.Navigator>
-          </NavigationContainer>
-        ) : (
-          <Text>Hi</Text>
-        )}
-      </View>
+          ) : (
+            <Tab.Navigator inactiveColor="#a6dbff" backBehavior="initialRoute">
+              <Tab.Screen
+                name="Meetings"
+                component={MeetingScreen}
+                options={{
+                  tabBarIcon: ({ color }) => (
+                    <Icon name="th-list" color={color} size={23} />
+                  ),
+                }}
+              />
+              <Tab.Screen
+                name="Pals"
+                component={PalScreen}
+                options={{
+                  tabBarIcon: ({ color }) => (
+                    <Icon name="user-o" color={color} size={23} />
+                  ),
+                }}
+              />
+              <Tab.Screen
+                name="Groups"
+                component={GroupScreen}
+                options={{
+                  tabBarIcon: ({ color }) => (
+                    <Icon name="group" color={color} size={23} />
+                  ),
+                }}
+              />
+              <Tab.Screen
+                name="Profile"
+                component={ProfileScreen}
+                options={{
+                  tabBarIcon: ({ color }) => (
+                    <Icon name="user-circle" color={color} size={23} />
+                  ),
+                }}
+              />
+            </Tab.Navigator>
+          )}
+        </View>
+      </NavigationContainer>
     );
   }
 }

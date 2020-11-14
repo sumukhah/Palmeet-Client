@@ -10,6 +10,8 @@ const authReducer = (state = INITIAL_STATE, action) => {
       return { ...action.user, errorMessage: "" };
     case "AUTH_FAILURE":
       return { errorMessage: action.error };
+    case "LOGOUT":
+      return { errorMessage: "", user: {} };
     default:
       return state;
   }

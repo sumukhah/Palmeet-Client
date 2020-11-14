@@ -16,14 +16,19 @@ const login = (credential) => {
   };
 };
 
-const logout = () => {
+// For simplicity, Not requesting to the server to log out the user
+// Instead removing the state.user from store and removing the api_token from the storage
+export const logout = () => {
   return async (dispatch, getState) => {
     try {
       await AsyncStorage.removeItem("api_token");
-      await axios.post(`${baseApi}${logOut}`, null, {
-        headers: { api_token: `Bearer ${api_token}` },
+    } catch (e) {
+      console.log(e);
+    } finally {
+      dispatch({
+        type: "LOGOUT",
       });
-    } catch (e) {}
+    }
   };
 };
 
