@@ -1,4 +1,4 @@
-import { baseApi, loginApi, logOut } from "../api/index.js";
+import { baseApi, loginApi, logOut } from "../../api/index.js";
 import axios from "axios";
 import AsyncStorage from "@react-native-community/async-storage";
 import { successAuth, authFailure } from "./authActionHelper";
@@ -23,7 +23,6 @@ export const logout = () => {
     try {
       await AsyncStorage.removeItem("api_token");
     } catch (e) {
-      console.log(e);
     } finally {
       dispatch({
         type: "LOGOUT",

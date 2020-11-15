@@ -7,6 +7,9 @@ export const logOut = "/logout";
 
 export const registerApi = "/register";
 export const userSelfData = "/profile";
+export const newPalRequest = "/new-pal-request";
+export const palsList = "/pals";
+export const acceptPalInvite = "/accept-pal-request";
 
 // export const instance = axios.create({
 //   baseURL: baseApi,

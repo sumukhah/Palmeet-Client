@@ -12,7 +12,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import store from "./src/store";
 import Login from "./src/Containers/Authentication/Login";
 import Register from "./src/Containers/Authentication/Register";
-import restoreUser from "./src/actions/restoreUser";
+import restoreUser from "./src/actions/authentication/restoreUser";
 import IntroScreen from "./src/Containers/Intro/Intro";
 import ProfileScreen from "./src/Screens/ProfileScreen/ProfileScreen";
 import MeetingScreen from "./src/Screens/MeetingScreen/MeetingScreen";
@@ -51,7 +51,7 @@ class App extends React.Component {
               <Stack.Screen name="Register" component={Register} />
             </Stack.Navigator>
           ) : (
-            <Tab.Navigator inactiveColor="#a6dbff" backBehavior="initialRoute">
+            <Tab.Navigator inactiveColor="#a6dbff">
               <Tab.Screen
                 name="Meetings"
                 component={MeetingScreen}

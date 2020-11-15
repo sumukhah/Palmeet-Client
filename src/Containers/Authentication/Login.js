@@ -11,7 +11,7 @@ import Icon from "react-native-vector-icons/AntDesign";
 import { Button, Input, Card } from "react-native-elements";
 import { Header } from "@react-navigation/stack";
 
-import authenticateUser from "../../actions/login";
+import authenticateUser from "../../actions/authentication/login";
 import { connect } from "react-redux";
 import TitleText from "../../Components/TitleText/TitleText";
 import { Title } from "native-base";

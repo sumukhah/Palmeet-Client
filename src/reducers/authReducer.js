@@ -1,4 +1,4 @@
-import { authFailure } from "../actions/authActionHelper";
+import { authFailure } from "../actions/authentication/authActionHelper";
 
 const INITIAL_STATE = {
   errorMessage: "",

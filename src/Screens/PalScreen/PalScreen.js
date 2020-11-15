@@ -1,33 +1,33 @@
 import React, { Component } from "react";
-import { Text, View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { connect } from "react-redux";
-import { Header, Button } from "react-native-elements";
+import { Header, Button, Overlay, Text, Card } from "react-native-elements";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { Input, Item, Form, Toast } from "native-base";
+import axios from "axios";
+
+import fetchPalInvitation from "../../actions/palRequest/fetchPals";
+import PalHeader from "../../Containers/ScreenHeader/PalHeader";
+import PalsList from "../../Containers/PalsList/PalsList";
 
 class PalScreen extends Component {
-  state = {};
   render() {
     return (
-      <View>
-        <Header
-          leftComponent={
-            <Button
-              title="Add"
-              type="clear"
-              titleStyle={{ color: "white", marginLeft: 5 }}
-              icon={<FontAwesome color="white" size={18} name="user-plus" />}
-            />
-          }
-          rightComponent={
-            <Button
-              icon={<FontAwesome name="envelope" size={18} color="white" />}
-            />
-          }
-        />
+      <View style={{ flex: 1 }}>
+        <PalHeader />
+        <PalsList />
       </View>
     );
   }
 }
 
-export default connect()(PalScreen);
+const styles = StyleSheet.create({
+  overlayStyle: {
+    flexDirection: "column",
+    alignItems: "stretch",
+    minWidth: 350,
+  },
+});
+
+export default PalScreen;

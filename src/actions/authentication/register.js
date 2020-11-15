@@ -1,4 +1,4 @@
-import { baseApi, registerApi } from "../api/index.js";
+import { baseApi, registerApi } from "../../api/index.js";
 import axios from "axios";
 import { successAuth, authFailure } from "./authActionHelper";
 import AsyncStorage from "@react-native-community/async-storage";

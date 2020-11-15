@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-community/async-storage";
-import { baseApi, userSelfData } from "../api/index.js";
+import { baseApi, userSelfData } from "../../api/index.js";
 import { successAuth } from "./authActionHelper";
 import axios from "axios";
 

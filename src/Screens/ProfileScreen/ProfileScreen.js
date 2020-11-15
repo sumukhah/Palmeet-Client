@@ -5,7 +5,7 @@ import { Card, Text, Divider } from "react-native-elements";
 import { Button } from "native-base";
 import Icon from "react-native-vector-icons/AntDesign";
 
-import { logout } from "../../actions/login";
+import { logout } from "../../actions/authentication/login";
 
 class ProfileScreen extends Component {
   render() {

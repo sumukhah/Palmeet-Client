@@ -12,7 +12,7 @@ import { Button, Input, Card } from "react-native-elements";
 import { connect } from "react-redux";
 import { Header } from "@react-navigation/stack";
 
-import userRegister from "../../actions/register";
+import userRegister from "../../actions/authentication/register";
 import AppTitle from "../../Components/TitleText/TitleText";
 import { ScrollView } from "react-native-gesture-handler";
 
