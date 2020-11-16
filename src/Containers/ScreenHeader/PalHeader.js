@@ -13,9 +13,8 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { Input, Item, Form, Toast } from "native-base";
 import axios from "axios";
 
-import fetchPalInvitation from "../../actions/palRequest/fetchPals";
 import { baseApi, newPalRequest } from "../../api/index";
-import acceptPalInvite from "../../actions/palRequest/acceptPalInvite";
+import acceptPalInvite from "../../actions/palRequest/palInvite";
 
 class PalHeader extends Component {
   state = {
@@ -24,9 +23,6 @@ class PalHeader extends Component {
     errorMessage: "",
     palEmail: "",
     palDescription: "",
-  };
-  componentDidMount = () => {
-    this.props.fetchPalInvitation();
   };
 
   onPressAddPal = () => {
@@ -70,7 +66,12 @@ class PalHeader extends Component {
       </ListItem.Content>
       <Button
         title="Accept"
-        onPress={() => this.props.acceptPalInvite(item.id)}
+        onPress={() => this.props.acceptPalInvite(item.id, true)}
+      />
+      <Button
+        title="Decline"
+        onPress={() => this.props.acceptPalInvite(item.id, false)}
+        buttonStyle={{ backgroundColor: "#ff5b4d" }}
       />
     </ListItem>
   );
@@ -166,8 +167,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchPalInvitation: () => dispatch(fetchPalInvitation()),
-    acceptPalInvite: (id) => dispatch(acceptPalInvite(id)),
+    // fetchPalInvitation: () => dispatch(fetchPalInvitation()),
+    acceptPalInvite: (id, accepted) => dispatch(acceptPalInvite(id, accepted)),
   };
 };
 

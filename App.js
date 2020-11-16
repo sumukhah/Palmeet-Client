@@ -18,6 +18,7 @@ import ProfileScreen from "./src/Screens/ProfileScreen/ProfileScreen";
 import MeetingScreen from "./src/Screens/MeetingScreen/MeetingScreen";
 import GroupScreen from "./src/Screens/GroupScreen/GroupsScreen";
 import PalScreen from "./src/Screens/PalScreen/PalScreen";
+import ScheduleMeeting from "./src/Containers/StartMeetingForm/StartMeetingForm";
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();

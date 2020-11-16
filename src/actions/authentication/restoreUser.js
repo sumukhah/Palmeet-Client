@@ -16,6 +16,7 @@ export default () => {
       });
       dispatch(successAuth(data.data));
     } catch (e) {
+      console.log(e.response);
       console.log(e);
     }
   };

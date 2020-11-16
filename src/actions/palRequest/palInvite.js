@@ -1,8 +1,13 @@
-import { baseApi, palsList, acceptPalInvite } from "../../api/index.js";
+import {
+  baseApi,
+  palsList,
+  acceptPalInvite,
+  declinePalInvite,
+} from "../../api/index.js";
 import axios from "axios";
 import { successFetch, failedFetch } from "./fetchPals";
 
-export default (id) => {
+export default (id, accepted) => {
   return async (dispatch, getState) => {
     const { api_token } = getState().user;
     const headers = {
@@ -10,12 +15,14 @@ export default (id) => {
     };
 
     try {
-      const response = await axios.get(`${baseApi}${acceptPalInvite}/${id}`, {
-        headers,
-      });
-      const { data } = await axios.get(`${baseApi}${palsList}`, {
-        headers,
-      });
+      const { data } = await axios.get(
+        `${baseApi}${accepted ? acceptPalInvite : declinePalInvite}/${id}`,
+        {
+          headers,
+        }
+      );
+      console.log(data);
+
       dispatch(successFetch(data.data));
     } catch (e) {
       console.log(e.message, e.response);

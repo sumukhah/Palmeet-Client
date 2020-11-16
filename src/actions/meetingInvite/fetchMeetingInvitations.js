@@ -1,28 +1,31 @@
-import { baseApi, palsList } from "../../api/index.js";
+import {
+  baseApi,
+  palsList,
+  setHeader,
+  meetingInvitations,
+} from "../../api/index.js";
 import axios from "axios";
 
 export const successFetch = (data) => {
   return {
-    type: "FETCH_PALS_SUCCESS",
+    type: "FETCH_MEETINGS_SUCCESS",
     payload: data,
   };
 };
 
 export const failedFetch = (message) => {
   return {
-    type: "FETCH_PALS_FAILED",
+    type: "FETCH_MEETINGS_FAILED",
     errorMessage: message,
   };
 };
 
 export default () => {
   return async (dispatch, getState) => {
-    const { api_token } = getState().user;
+    const headers = setHeader(getState().user.api_token);
     try {
-      const { data } = await axios.get(`${baseApi}${palsList}`, {
-        headers: {
-          Authorization: `Bearer ${api_token}`,
-        },
+      const { data } = await axios.get(`${baseApi}${meetingInvitations}`, {
+        headers,
       });
       dispatch(successFetch(data.data));
     } catch (e) {
