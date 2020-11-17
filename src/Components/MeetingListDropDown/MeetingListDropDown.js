@@ -3,35 +3,12 @@ import { View, Text, FlatList, Linking, StyleSheet } from "react-native";
 import AccordionDropDown from "../AccordionDropDown/AccordionDropDown";
 import { Button } from "react-native-elements";
 
-const meetings = [
-  {
-    url: "meet.jit.si/abc",
-    description: "hola",
-    id: 1,
-    name: "hello",
-    subtitle: "hi",
-  },
-  {
-    url: "meet.jit.si/abc",
-    description: "hola",
-    id: 2,
-    name: "slkdf",
-    subtitle: "hi",
-  },
-  {
-    url: "meet.jit.si/abc",
-    description:
-      "hola helen vesta hasld lsadkj saldkfjlaksdjflk lsakdfjlkajsd flkajsdf lkasldkfj alskdfkjdflkajsdlf k",
-    id: 3,
-    name: "hey",
-    subtitle: "hoii",
-  },
-];
-
 const MeetingDescription = ({ description, link }) => {
   const openUrl = () => {
-    Linking.openURL(`http://${link}`);
+    console.log("the link is", link);
+    Linking.openURL(`${link}`);
   };
+
   return (
     <View style={{ alignItems: "center" }}>
       <View style={styles.meetingDescription}>
@@ -42,18 +19,17 @@ const MeetingDescription = ({ description, link }) => {
   );
 };
 
-export default function MeetingListDropDown() {
+export default function MeetingListDropDown({ meetings = [] }) {
   const keyExtractor = (meeting, index) => String(meeting.id);
   const renderItem = ({ item }) => (
     <AccordionDropDown
-      title={item.name}
-      subtitle={item.subtitle}
+      title={item.title}
+      subtitle={item.invitation}
       detailComponent={
-        <MeetingDescription description={item.description} link={item.url} />
+        <MeetingDescription description={item.invitation} link={item.link} />
       }
     />
   );
-
   return (
     <FlatList
       keyExtractor={keyExtractor}

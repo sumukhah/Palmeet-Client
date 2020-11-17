@@ -1,5 +1,10 @@
 import React from "react";
-import { View, FlatList, StyleSheet } from "react-native";
+import {
+  View,
+  FlatList,
+  StyleSheet,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { Overlay, ListItem, Text, Button } from "react-native-elements";
 
 export default function SelectablePalList({
@@ -11,18 +16,19 @@ export default function SelectablePalList({
   const keyExtractor = (item, index) => item.email.toString();
 
   const renderItem = ({ item }) => (
-    <ListItem
-      containerStyle={
-        selectedPals.includes(item.id)
-          ? { ...styles.listItemContainer, ...styles.selectedItem }
-          : { ...styles.listItemContainer }
-      }
-      onPress={() => onSelectPal(item.id)}
-    >
-      <ListItem.Content>
-        <ListItem.Title>{item.name}</ListItem.Title>
-      </ListItem.Content>
-    </ListItem>
+    <TouchableWithoutFeedback onPress={() => onSelectPal(item.pal_id)}>
+      <ListItem
+        containerStyle={
+          selectedPals.includes(item.pal_id)
+            ? { ...styles.listItemContainer, ...styles.selectedItem }
+            : { ...styles.listItemContainer }
+        }
+      >
+        <ListItem.Content>
+          <ListItem.Title>{item.name}</ListItem.Title>
+        </ListItem.Content>
+      </ListItem>
+    </TouchableWithoutFeedback>
   );
   return (
     <Overlay

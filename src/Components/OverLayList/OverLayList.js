@@ -8,7 +8,7 @@ export default function OverLayList({
   onBackdropPress,
   ...props
 }) {
-  const keyExtractor = (item, index) => item.id;
+  const keyExtractor = (item, index) => item.id.toString();
 
   return (
     <Overlay

@@ -100,7 +100,7 @@ class PalHeader extends Component {
               <Badge
                 status="success"
                 value={
-                  this.props.pals.my_pending
+                  !!this.props.pals.my_pending
                     ? this.props.pals.my_pending.length
                     : 0
                 }

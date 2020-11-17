@@ -15,6 +15,8 @@ export const inviteForMeeting = "/meeting-invite";
 export const scheduleMeeting = "/meeting-new";
 export const meetingInvitations = "/my-meeting-invites";
 export const meetings = "/meetings";
+export const acceptMeeting = "/meeting-invite-accept";
+export const declineMeeting = "/meeting-invite-decline";
 
 export const setHeader = (token) => {
   return {

@@ -3,9 +3,16 @@ import { Text, View, StatusBar, StyleSheet } from "react-native";
 import { connect } from "react-redux";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Spinner } from "native-base";
+import { Spinner, Toast } from "native-base";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { Header, Button, Overlay, Divider, Badge } from "react-native-elements";
+import {
+  Header,
+  Button,
+  Overlay,
+  ListItem,
+  Badge,
+} from "react-native-elements";
+import moment from "moment";
 
 import MeetingsToday from "../../Containers/MeetingsToday/MeetingsToday";
 import AllMeetings from "../../Containers/AllMeetings/AllMeetings";
@@ -15,6 +22,9 @@ import { ScreenStackHeaderCenterView } from "react-native-screens";
 import fetchMeetingsInvitation from "../../actions/meetings/fetchMeetingInvitations";
 import fetchMeetings from "../../actions/meetings/fetchScheduledMeetings";
 import fetchMeetingInvitations from "../../actions/meetings/fetchMeetingInvitations";
+import OverLayList from "../../Components/OverLayList/OverLayList";
+import { baseApi, acceptMeeting, declineMeeting, setHeader } from "../../api";
+import Axios from "axios";
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -36,8 +46,49 @@ class MeetingScreen extends Component {
     }));
   };
 
+  onAcceptMeetingInvitation = async (id, accepted) => {
+    try {
+      const headers = setHeader(this.props.route.params.user.api_token);
+      const { data } = await Axios.get(
+        `${baseApi}${accepted ? acceptMeeting : declineMeeting}/${id}`,
+        {
+          headers,
+        }
+      );
+      Toast.show(data);
+    } catch (e) {
+      console.log(e);
+      Toast.show(e.message);
+    }
+  };
+
+  renderItem = ({ item }) => (
+    <ListItem bottomDivider>
+      <ListItem.Content>
+        <ListItem.Title>{item.meeting.title}</ListItem.Title>
+        <ListItem.Subtitle>
+          starts at:{moment(item.meeting.meeting_starts).format("DD-MM HH")}
+        </ListItem.Subtitle>
+        <ListItem.Subtitle>
+          ends at:{moment(item.meeting.meeting_ends).format("DD-MM HH")}
+        </ListItem.Subtitle>
+      </ListItem.Content>
+
+      <Button
+        title="Accept"
+        onPress={() => {
+          this.onAcceptMeetingInvitation(item.id, true);
+        }}
+      />
+      <Button
+        title="Decline"
+        onPress={() => this.onAcceptMeetingInvitation(item.id, false)}
+        buttonStyle={{ backgroundColor: "#ff5b4d" }}
+      />
+    </ListItem>
+  );
+
   render() {
-    console.log("param is", this.props.route.params);
     return (
       <View style={styles.container}>
         <Header
@@ -57,12 +108,19 @@ class MeetingScreen extends Component {
               />
               <Badge
                 status="success"
-                value={this.props.route.params.meetings.length}
+                value={this.props.route.params.pendingMeetings.length}
                 containerStyle={{ position: "absolute", top: -3, right: -3 }}
               />
             </View>
           }
         />
+        {this.state.showMeetingReqList && (
+          <OverLayList
+            data={this.props.route.params.pendingMeetings}
+            renderItem={this.renderItem}
+            onBackdropPress={this.onPressShowMeetingList}
+          />
+        )}
 
         <Tab.Navigator>
           <Tab.Screen name="Meetings Today" component={MeetingsToday} />
@@ -97,7 +155,11 @@ const WithStackNavigator = (props) => {
         component={MeetingScreen}
         name="Meetings"
         options={{ headerShown: false }}
-        initialParams={{ meetings: props.meetings }}
+        initialParams={{
+          meetings: props.meetings,
+          pendingMeetings: props.pendingMeetings,
+          user: props.user,
+        }}
       />
       <Stack.Screen component={ScheduleMeeting} name="Schedule Meeting" />
     </Stack.Navigator>
@@ -117,6 +179,9 @@ const mapStateToProps = (state) => {
     isLoading: state.meetings.isLoading,
     errorMessage: state.meetings.errorMessage,
     meetings: state.meetings.items,
+    pendingMeetings: state.pendingMeeting.items,
+    isLoadingPendingMeetings: state.pendingMeeting.isLoading,
+    user: state.user,
   };
 };
 

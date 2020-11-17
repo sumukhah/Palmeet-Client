@@ -76,18 +76,21 @@ class StartMeetingForm extends Component {
     const headers = setHeader(this.props.user.api_token);
 
     try {
-      const { data } = await axios.post(
+      const resp = await axios.post(
         `${baseApi}${scheduleMeeting}`,
         {
           title,
           invitation: description,
           link: generateRandomUrl(),
-          meeting_starts: `${startDate}${startTime}`,
-          meeting_ends: `${endDate}${endTime}`,
+          meeting_starts: "" + startDate + " " + startTime,
+          meeting_ends: "" + endDate + " " + endTime,
         },
         { headers }
       );
-      const meeting_id = data.data.id;
+      console.log(resp);
+
+      console.log("skldfjlaskdjf");
+      const meeting_id = resp.data.data.id;
       const response = await axios.post(
         `${baseApi}${inviteForMeeting}`,
         { meeting_id, invitees: JSON.stringify(selectedPals) },
