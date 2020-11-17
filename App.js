@@ -35,9 +35,9 @@ class App extends React.Component {
   };
 
   render() {
-    // if (!this.state.isInitialLoadingCompleted) {
-    //   return <Spinner />;
-    // }
+    if (this.props.isLoading) {
+      return <Spinner style={{ flex: 1 }} />;
+    }
     return (
       <NavigationContainer>
         <View style={styles.container}>
@@ -92,6 +92,7 @@ class App extends React.Component {
             </Tab.Navigator>
           )}
         </View>
+        <StatusBar backgroundColor="#208bdc" translucent style="light" />
       </NavigationContainer>
     );
   }
@@ -100,6 +101,7 @@ class App extends React.Component {
 const mapStateToProps = (state) => {
   return {
     user: state.user,
+    isLoading: state.user.isLoading,
   };
 };
 

@@ -15,6 +15,7 @@ import axios from "axios";
 
 import { baseApi, newPalRequest } from "../../api/index";
 import acceptPalInvite from "../../actions/palRequest/palInvite";
+import OverlayList from "../../Components/OverLayList/OverLayList";
 
 class PalHeader extends Component {
   state = {
@@ -137,17 +138,11 @@ class PalHeader extends Component {
           </Form>
         </Overlay>
         {this.state.showPalReqList && !!this.props.pals.my_pending.length && (
-          <Overlay
-            isVisible={true}
-            overlayStyle={styles.overlayStyle}
+          <OverlayList
+            data={this.props.pals.my_pending}
+            renderItem={this.renderItem}
             onBackdropPress={this.onPressShowPalList}
-          >
-            <FlatList
-              keyExtractor={this.keyExtractor}
-              data={this.props.pals.my_pending}
-              renderItem={this.renderItem}
-            />
-          </Overlay>
+          />
         )}
       </View>
     );

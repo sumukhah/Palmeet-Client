@@ -4,9 +4,9 @@
     "slug": "Palmeet-Client",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/palmeet.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/palmeet.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

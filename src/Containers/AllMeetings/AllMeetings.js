@@ -1,12 +1,16 @@
 import React, { Component } from "react";
 import { Text, View } from "react-native";
+import { connect } from "react-redux";
+import { Calendar } from "react-native-calendars";
 
-export default class AllMeetings extends Component {
+class AllMeetings extends Component {
   render() {
     return (
       <View>
-        <Text> textInComponent </Text>
+        <Calendar />
       </View>
     );
   }
 }
+
+export default connect()(AllMeetings);

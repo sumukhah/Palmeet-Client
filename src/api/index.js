@@ -1,6 +1,6 @@
 import axios from "axios";
 // export const baseApi = "http://10.0.0.2:8000/api";
-export const baseApi = "http://26564c51a418.ngrok.io/api";
+export const baseApi = "http://f5293ecc5897.ngrok.io/api";
 
 export const loginApi = "/login";
 export const logOut = "/logout";
@@ -14,6 +14,7 @@ export const declinePalInvite = "/decline-pal-request";
 export const inviteForMeeting = "/meeting-invite";
 export const scheduleMeeting = "/meeting-new";
 export const meetingInvitations = "/my-meeting-invites";
+export const meetings = "/meetings";
 
 export const setHeader = (token) => {
   return {

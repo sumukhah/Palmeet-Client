@@ -6,6 +6,7 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   SafeAreaView,
+  Image,
 } from "react-native";
 import Icon from "react-native-vector-icons/AntDesign";
 import { Button, Input, Card } from "react-native-elements";
@@ -15,6 +16,7 @@ import authenticateUser from "../../actions/authentication/login";
 import { connect } from "react-redux";
 import TitleText from "../../Components/TitleText/TitleText";
 import { Title } from "native-base";
+import PalMeetIcon from "../../Components/PalMeetIcon/PalMeetIcon";
 
 function Login(props) {
   const [email, setEmail] = useState("");
@@ -23,7 +25,7 @@ function Login(props) {
   const onLoginPress = () => {
     props.authenticateUser({ email, password });
   };
-  console.log(props.errorMessage);
+
   return (
     <ScrollView>
       <KeyboardAvoidingView
@@ -31,7 +33,7 @@ function Login(props) {
         behavior={Platform.OS == "ios" ? "padding" : "height"}
       >
         <ScrollView contentContainerStyle={{ justifyContent: "flex-end" }}>
-          <TitleText />
+          <PalMeetIcon />
           <Card>
             <Input
               placeholder="email"
@@ -61,7 +63,7 @@ function Login(props) {
             >
               Register as a new user
             </Text>
-            <Text style={{ color: "red" }}>{props.errorMessage}</Text>
+            {/* <Text style={{ color: "red" }}>{props.errorMessage}</Text> */}
           </Card>
         </ScrollView>
       </KeyboardAvoidingView>

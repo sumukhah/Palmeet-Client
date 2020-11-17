@@ -21,7 +21,6 @@ export default (id, accepted) => {
           headers,
         }
       );
-      console.log(data);
 
       dispatch(successFetch(data.data));
     } catch (e) {

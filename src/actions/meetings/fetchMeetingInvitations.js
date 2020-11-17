@@ -28,6 +28,7 @@ export default () => {
         headers,
       });
       dispatch(successFetch(data.data));
+      console.log(data.data);
     } catch (e) {
       console.log(e.response);
       dispatch(failedFetch(e.message));

@@ -7,9 +7,16 @@ import DateTimePicker, {
   TimePickerOptions,
 } from "@react-native-community/datetimepicker";
 import moment from "moment";
+import axios from "axios";
 
-import scheduleMeeting from "../../actions/scheduleMeeting/scheduleMeeting";
 import SelectablePalList from "../PalsList/SelectablePalList";
+import {
+  setHeader,
+  baseApi,
+  scheduleMeeting,
+  inviteForMeeting,
+} from "../../api/index";
+import generateRandomUrl from "../../helper/generateRandomUrl";
 
 class StartMeetingForm extends Component {
   state = {
@@ -38,12 +45,11 @@ class StartMeetingForm extends Component {
     this.setState({ endDate, showEndDatePicker: false });
   };
   setStartTime = (time) => {
-    const startTime = moment(time.nativeEvent.timestamp).format("HH:MM:SS");
+    const startTime = moment(time.nativeEvent.timestamp).format("HH:mm:ss");
     this.setState({ showStartTimePicker: false, startTime });
   };
   setEndTime = (time) => {
-    const endTime = moment(time.nativeEvent.timestamp).format("HH:MM:SS");
-    console.log(endTime);
+    const endTime = moment(time.nativeEvent.timestamp).format("HH:mm:ss");
     this.setState({ endTime, showEndTimePicker: false });
   };
   onSelectPal = (palId) => {
@@ -55,21 +61,43 @@ class StartMeetingForm extends Component {
       this.setState({ selectedPals });
     }
   };
-  onPressScheduleMeeting = () => {
-    const { description, startDate, endDate, startTime, endTime } = this.state;
+  onPressScheduleMeeting = async () => {
+    const {
+      description,
+      startDate,
+      endDate,
+      startTime,
+      endTime,
+      selectedPals,
+    } = this.state;
     const title =
       this.state.title ||
       `Meeting on ${this.state.startDate} ${this.state.startTime}`;
-    this.props.scheduleMeeting(
-      {
-        title,
-        invitation: description,
-        meeting_starts: `${startDate}${startTime}`,
-        meeting_ends: `${endDate}${endTime}`,
-      },
-      this.state.selectedPals
-    );
-    this.props.navigation.pop();
+    const headers = setHeader(this.props.user.api_token);
+
+    try {
+      const { data } = await axios.post(
+        `${baseApi}${scheduleMeeting}`,
+        {
+          title,
+          invitation: description,
+          link: generateRandomUrl(),
+          meeting_starts: `${startDate}${startTime}`,
+          meeting_ends: `${endDate}${endTime}`,
+        },
+        { headers }
+      );
+      const meeting_id = data.data.id;
+      const response = await axios.post(
+        `${baseApi}${inviteForMeeting}`,
+        { meeting_id, invitees: JSON.stringify(selectedPals) },
+        { headers }
+      );
+      console.log(response);
+      this.props.navigation.pop();
+    } catch (e) {
+      console.log(e.response);
+    }
   };
 
   render() {
@@ -89,7 +117,7 @@ class StartMeetingForm extends Component {
             onChangeText={(txt) => this.setState({ title: txt })}
           />
           <Textarea
-            rowSpan={3}
+            rowSpan={4}
             bordered
             placeholder="Meeting Description (Optional)"
             onChangeText={(txt) => this.setState({ description: txt })}
@@ -120,7 +148,6 @@ class StartMeetingForm extends Component {
             display="clock"
             is24Hour={false}
             onChange={this.setStartTime}
-            minimumDate={Date.now()}
           />
         )}
         {this.state.showEndTimePicker && (
@@ -130,12 +157,11 @@ class StartMeetingForm extends Component {
             is24Hour={false}
             display="clock"
             onChange={this.setEndTime}
-            minimumDate={Date.now()}
           />
         )}
         <View style={styles.dateTime}>
           <View style={styles.buttonGroup}>
-            <Text>Starts From:</Text>
+            <Text style={{ fontWeight: "bold" }}>Starts From:</Text>
             <Button
               title={startDate || "Start Date"}
               onPress={() => this.setState({ showStartDatePicker: true })}
@@ -148,7 +174,7 @@ class StartMeetingForm extends Component {
             />
           </View>
           <View style={styles.buttonGroup}>
-            <Text>Ends at:</Text>
+            <Text style={{ fontWeight: "bold" }}>Ends at:</Text>
             <Button
               title={endDate || "End Date"}
               onPress={() => this.setState({ showEndDatePicker: true })}
@@ -192,7 +218,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    paddingHorizontal: 20,
+    paddingHorizontal: 30,
     justifyContent: "space-around",
   },
 });
@@ -200,14 +226,12 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   return {
     pals: state.pals,
+    user: state.user,
   };
 };
 
 const mapDispatchProps = (dispatch) => {
-  return {
-    scheduleMeeting: (meeting_credentials, selectedUsers) =>
-      dispatch(scheduleMeeting(meeting_credentials, selectedUsers)),
-  };
+  return {};
 };
 
 export default connect(mapStateToProps, mapDispatchProps)(StartMeetingForm);

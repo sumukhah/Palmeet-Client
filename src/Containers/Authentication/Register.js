@@ -15,6 +15,7 @@ import { Header } from "@react-navigation/stack";
 import userRegister from "../../actions/authentication/register";
 import AppTitle from "../../Components/TitleText/TitleText";
 import { ScrollView } from "react-native-gesture-handler";
+import PalMeetIcon from "../../Components/PalMeetIcon/PalMeetIcon";
 
 function Register(props) {
   const [email, setEmail] = useState("");
@@ -37,7 +38,7 @@ function Register(props) {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <ScrollView contentContainerStyle={{ justifyContent: "flex-end" }}>
-        <AppTitle />
+        <PalMeetIcon />
         <Card>
           <Input
             placeholder="Full Name"
@@ -91,7 +92,7 @@ function Register(props) {
           </Text>
         </Card>
 
-        <Text style={{ color: "red" }}>{props.errorMessage}</Text>
+        {/* <Text style={{ color: "red" }}>{props.errorMessage}</Text> */}
       </ScrollView>
     </KeyboardAvoidingView>
   );
